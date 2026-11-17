@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${ 'Transacciones - KronoCash' })}"></head>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <main>
+        <h1>Transacciones</h1>
+
+        <div th:if="${message}" class="alert success" role="alert" th:text="${message}">Movimiento registrado.</div>
+
+        <!-- Formulario rápido de registro de gasto / ingreso -->
+        <section class="quick-form" aria-label="Registro rápido de movimiento">
+            <h2>Registro rápido de movimiento</h2>
+            <form th:action="@{/transactions}" th:object="${transaction}" method="post" novalidate>
+                <div class="field">
+                    <label for="type">Tipo <span class="required" aria-hidden="true">*</span></label>
+                    <select id="type" name="type" th:field="*{type}" required>
+                        <option th:each="t : ${types}" th:value="${t}" th:text="${t}">INGRESO</option>
+                    </select>
+                    <span class="error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span>
+                </div>
+                <div class="field">
+                    <label for="category">Categoría <span class="required" aria-hidden="true">*</span></label>
+                    <input id="category" name="category" th:field="*{category}" type="text" required
+                           list="category-list" placeholder="Ej. Alimentación, Salario, Transporte"/>
+                    <datalist id="category-list">
+                        <option th:each="c : ${categories}" th:value="${c}"></option>
+                    </datalist>
+                    <span class="error" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></span>
+                </div>
+                <div class="field">
+                    <label for="amount">Monto <span class="required" aria-hidden="true">*</span></label>
+                    <input id="amount" name="amount" th:field="*{amount}" type="number" step="0.01" min="0.01" required
+                           placeholder="0.00"/>
+                    <span class="error" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></span>
+                </div>
+                <div class="field">
+                    <label for="description">Descripción</label>
+                    <input id="description" name="description" th:field="*{description}" type="text"
+                           placeholder="Detalles del movimiento"/>
+                    <span class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+                </div>
+                <div class="field">
+                    <label for="transactionDate">Fecha y hora <span class="required" aria-hidden="true">*</span></label>
+                    <input id="transactionDate" name="transactionDate" th:field="*{transactionDate}"
+                           type="datetime-local" required/>
+                    <span class="error" th:if="${#fields.hasErrors('transactionDate')}"
+                          th:errors="*{transactionDate}"></span>
+                </div>
+                <div class="actions">
+                    <button type="submit" class="btn">Registrar movimiento</button>
+                    <a th:href="@{/transactions}" class="btn ghost">Cancelar</a>
+                </div>
+            </form>
+        </section>
+
+        <!-- Filtros por categoría, tipo y rango de fechas -->
+        <section class="filters quick-form" aria-label="Filtros de movimientos">
+            <h2>Filtrar movimientos</h2>
+            <form th:action="@{/transactions}" method="get" novalidate>
+                <div class="field">
+                    <label for="filterCategory">Categoría</label>
+                    <select id="filterCategory" name="category">
+                        <option value="">Todas</option>
+                        <option th:each="c : ${categories}" th:value="${c}"
+                                th:selected="${selectedCategory eq c}" th:text="${c}">Alimentación</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="filterType">Tipo</label>
+                    <select id="filterType" name="type">
+                        <option value="">Todos</option>
+                        <option th:each="t : ${types}" th:value="${t}"
+                                th:selected="${selectedType eq t}" th:text="${t}">Ingreso</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="filterStart">Desde</label>
+                    <input id="filterStart" name="startDate" type="datetime-local" th:value="${startDate}"/>
+                </div>
+                <div class="field">
+                    <label for="filterEnd">Hasta</label>
+                    <input id="filterEnd" name="endDate" type="datetime-local" th:value="${endDate}"/>
+                </div>
+                <div class="actions">
+                    <button type="submit" class="btn">Aplicar filtros</button>
+                    <a th:href="@{/transactions}" class="btn ghost">Limpiar</a>
+                </div>
+            </form>
+        </section>
+
+        <!-- Historial de transacciones (tabla semántica) -->
+        <section class="history" aria-label="Historial de transacciones">
+            <h2>Historial de transacciones</h2>
+            <div class="balance-summary" th:if="${totalBalance != null}">
+                Balance total: <strong th:text="${totalBalance}">$0.00</strong>
+            </div>
+            <table>
+                <caption>Lista de movimientos del usuario</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Categoría</th>
+                        <th scope="col">Monto</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="tx : ${transactions}">
+                        <td data-label="Fecha"
+                            th:text="${#temporals.format(tx.transactionDate, 'dd/MM/yyyy HH:mm')}">—</td>
+                        <td data-label="Tipo">
+                            <span th:if="${tx.income}" class="badge income">Ingreso</span>
+                            <span th:unless="${tx.income}" class="badge expense">Egreso</span>
+                        </td>
+                        <td data-label="Categoría" th:text="${tx.category}">—</td>
+                        <td data-label="Monto" th:text="${tx.amount}">—</td>
+                        <td data-label="Descripción" th:text="${tx.description}">—</td>
+                        <td data-label="Acciones">
+                            <form th:action="@{/transactions/{id}/delete(id=${tx.id})}" method="post"
+                                  style="display:inline">
+                                <button type="submit" class="btn delete"
+                                        th:aria-label="'Eliminar movimiento de ' + ${tx.description}">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(transactions)}">
+                        <td colspan="6">No se encontraron movimientos.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

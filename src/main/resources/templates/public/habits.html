@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${ 'Hábitos - KronoCash' })}"></head>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <main>
+        <h1>Hábitos</h1>
+
+        <div th:if="${message}" class="alert success" role="alert" th:text="${message}">Hábito registrado.</div>
+
+        <div class="habit-stats" aria-label="Resumen de hábitos">
+            <div class="stat">
+                <span class="label">Completados hoy</span>
+                <span class="value" th:text="${completedToday}">0</span>
+            </div>
+            <div class="stat">
+                <span class="label">Total de hábitos</span>
+                <span class="value" th:text="${totalToday}">0</span>
+            </div>
+        </div>
+
+        <!-- Formulario rápido de registro de hábito -->
+        <section class="quick-form" aria-label="Registro rápido de hábito">
+            <h2>Registro rápido de hábito</h2>
+            <form th:action="@{/habits}" th:object="${habit}" method="post" novalidate>
+                <div class="field">
+                    <label for="title">Título del hábito <span class="required" aria-hidden="true">*</span></label>
+                    <input id="title" name="title" th:field="*{title}" type="text" required maxlength="200"
+                           placeholder="Ej. Leer 30 min, Hacer ejercicio"/>
+                    <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+                </div>
+                <div class="field">
+                    <label for="frequency">Frecuencia <span class="required" aria-hidden="true">*</span></label>
+                    <input id="frequency" name="frequency" th:field="*{frequency}" type="text" required
+                           placeholder="Ej. Diario, 3 veces por semana"/>
+                    <span class="error" th:if="${#fields.hasErrors('frequency')}" th:errors="*{frequency}"></span>
+                </div>
+                <div class="actions">
+                    <button type="submit" class="btn">Registrar hábito</button>
+                    <a th:href="@{/habits}" class="btn ghost">Cancelar</a>
+                </div>
+            </form>
+        </section>
+
+        <!-- Lista de hábitos -->
+        <section class="habit-list" aria-label="Mis hábitos">
+            <h2>Mis hábitos</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Título</th>
+                        <th scope="col">Frecuencia</th>
+                        <th scope="col">Racha</th>
+                        <th scope="col">Estado hoy</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="h : ${habits}">
+                        <td data-label="Título" th:text="${h.title}">—</td>
+                        <td data-label="Frecuencia" th:text="${h.frequency}">—</td>
+                        <td data-label="Racha" th:text="${h.streakCount}">0</td>
+                        <td data-label="Estado hoy">
+                            <form th:action="@{/habits/{id}/toggle(id=${h.id})}" method="post" style="display:inline">
+                                <button type="submit" class="btn toggle"
+                                        th:class="${h.completedToday} ? 'done' : 'pending'"
+                                        th:aria-label="${h.completedToday} ? 'Marcar como no completado' : 'Marcar como completado'"
+                                        th:text="${h.completedToday} ? '✓ Completado' : 'Marcar completado'">
+                                </button>
+                            </form>
+                        </td>
+                        <td data-label="Acciones">
+                            <form th:action="@{/habits/{id}/delete(id=${h.id})}" method="post" style="display:inline">
+                                <button type="submit" class="btn delete"
+                                        th:aria-label="'Eliminar hábito ' + ${h.title}">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(habits)}">
+                        <td colspan="5">No hay hábitos registrados.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

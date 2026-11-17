@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<nav th:fragment="navbar" aria-label="Navegación principal">
+    <a th:href="@{/dashboard}">Dashboard</a>
+    <a th:href="@{/transactions}">Transacciones</a>
+    <a th:href="@{/habits}">Hábitos</a>
+    <a th:href="@{/login}" th:if="${#authorization.expression('isAnonymous()')}" class="nav-login">Iniciar sesión</a>
+    <form th:action="@{/logout}" method="post" th:unless="${#authorization.expression('isAnonymous()')}" style="display:inline">
+        <button type="submit" class="nav-logout">Cerrar sesión</button>
+    </form>
+    <span class="nav-user" th:if="${#authorization.expression('isAuthenticated()')}"
+          th:text="'Usuario: ' + ${#authentication.name}">Usuario</span>
+</nav>
+</html>

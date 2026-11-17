@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head(${ 'Dashboard - KronoCash' })}"></head>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <main>
+        <h1>Panel Financiero</h1>
+        <p class="user-info" th:text="'Usuario: ' + ${userId}">Usuario: 1</p>
+
+        <!-- Tarjetas de resumen financiero -->
+        <section class="summary-cards" aria-label="Resumen financiero">
+            <article class="card card-balance">
+                <h3>Balance Total</h3>
+                <p class="value" th:text="${totalBalance}">$0.00</p>
+            </article>
+            <article class="card card-income">
+                <h3>Ingresos del Mes</h3>
+                <p class="value" th:text="${monthlyIncome}">$0.00</p>
+            </article>
+            <article class="card card-expense">
+                <h3>Egresos del Mes</h3>
+                <p class="value" th:text="${monthlyExpense}">$0.00</p>
+            </article>
+            <article class="card card-goals">
+                <h3>Metas de Ahorro</h3>
+                <p class="value" th:text="${goalsCount}">0</p>
+                <p class="delta"
+                   th:if="${goalsTotalTarget != null}"
+                   th:text="'Acumulado: ' + ${goalsTotalCurrent} + ' / ' + ${goalsTotalTarget}">Acumulado: $0 / $0</p>
+            </article>
+        </section>
+
+        <!-- Metas de ahorro con porcentaje de avance -->
+        <section class="goals-section" aria-label="Metas de ahorro">
+            <h2>Metas de Ahorro</h2>
+            <table>
+                <caption>Progreso de las metas de ahorro del usuario</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Título</th>
+                        <th scope="col">Objetivo</th>
+                        <th scope="col">Actual</th>
+                        <th scope="col">Avance</th>
+                        <th scope="col">Fecha límite</th>
+                        <th scope="col">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="goal : ${goals}">
+                        <td data-label="Título" th:text="${goal.title}">—</td>
+                        <td data-label="Objetivo" th:text="${goal.targetAmount}">—</td>
+                        <td data-label="Actual" th:text="${goal.currentAmount}">—</td>
+                        <td data-label="Avance">
+                            <div class="goal-row">
+                                <div class="progress-bar" aria-hidden="true">
+                                    <div class="progress-fill"
+                                         th:style="'--p:' + ${goal.progressPercentage} + '%; width: var(--p)'"
+                                         role="progressbar"
+                                         th:aria-valuenow="${goal.progressPercentage}"
+                                         th:aria-valuemin="0"
+                                         th:aria-valuemax="100"
+                                         th:aria-label="'Avance de ' + ${goal.title} + ': ' + ${goal.progressPercentage} + '%'"></div>
+                                </div>
+                                <span th:text="${goal.progressPercentage} + ' %'">0 %</span>
+                            </div>
+                        </td>
+                        <td data-label="Fecha límite" th:text="${goal.deadline}">—</td>
+                        <td data-label="Estado">
+                            <span th:if="${goal.completed}" class="badge completed">Completada</span>
+                            <span th:unless="${goal.completed}" class="badge pending">Pendiente</span>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(goals)}">
+                        <td colspan="6">No hay metas de ahorro registradas.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <p class="user-info" style="margin-top:var(--space-lg);">
+            <span th:text="'Mes: ' + ${currentMonth} + ' ' + ${currentYear}">Mes: —</span>
+        </p>
+    </main>
+</body>
+</html>
