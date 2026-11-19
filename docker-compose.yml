@@ -3,16 +3,16 @@ services:
     image: postgres:15-alpine
     container_name: postgres-kronocash
     environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: db_bc8adb67a77b
+      POSTGRES_USER: kronoadmin
+      POSTGRES_PASSWORD: R3rTxLziw94A
     #   - "5877:5432" // descomentar sol,amente si ocupamos exponer la base de datos para usar algún lector
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
       - kronocash-net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      test: ["CMD-SHELL", "pg_isready -U kronoadmin -d db_bc8adb67a77b"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -23,9 +23,9 @@ services:
     ports:
       - "2309:2309"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/${DB_NAME}
-      - SPRING_DATASOURCE_USERNAME=${DB_USER}
-      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/db_bc8adb67a77b
+      - SPRING_DATASOURCE_USERNAME=kronoadmin
+      - SPRING_DATASOURCE_PASSWORD=R3rTxLziw94A
       - SPRING_FLYWAY_ENABLED=true
     depends_on:
       postgres-db:
