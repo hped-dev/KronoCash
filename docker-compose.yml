@@ -6,6 +6,8 @@ services:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+      TZ: America/Mexico_City
+      PGTZ: America/Mexico_City
     #   - "5877:5432" // descomentar sol,amente si ocupamos exponer la base de datos para usar algún lector
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -27,6 +29,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=${DB_USER}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
       - SPRING_FLYWAY_ENABLED=true
+      - TZ=America/Mexico_City
     depends_on:
       postgres-db:
         condition: service_healthy
