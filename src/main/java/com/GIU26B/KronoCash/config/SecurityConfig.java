@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
 @Configuration
 @EnableWebSecurity
@@ -18,7 +19,8 @@ public class SecurityConfig {
             // Configuración de rutas públicas y protegidas
             .authorizeHttpRequests(auth -> auth
                 // Permitir acceso libre a recursos estáticos (CSS, JS, imágenes) y páginas públicas
-                .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/register", "/login", "/error").permitAll()
+                .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/register", "/login", "/error",
+                        "/api/preferences").permitAll()
                 // Cualquier otra vista (dashboard, simulador, ajustes) requiere autenticación
                 .anyRequest().authenticated()
             )
@@ -33,9 +35,20 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
             )
-            // Criterio de Accesibilidad (WCAG 2.2 - Accessible Authentication):
-            // NO BLOQUEAR extensiones de navegador ni gestores de contraseñas (permite autocompletado)
-            .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**")); // Si usas endpoints REST asíncronos para la mascota o simulador
+            // CSRF activo también en /api/**: los scripts envían el token leído de <meta>.
+            .headers(headers -> headers
+                .frameOptions(frame -> frame.deny())
+                .contentTypeOptions(content -> { })
+                .httpStrictTransportSecurity(hsts -> hsts
+                    .includeSubDomains(true)
+                    .maxAgeInSeconds(31536000))
+                .addHeaderWriter(new StaticHeadersWriter("Content-Security-Policy",
+                    "default-src 'self'; "
+                    + "script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+                    + "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com; "
+                    + "font-src 'self' data: https://fonts.gstatic.com https://fonts.cdnfonts.com; "
+                    + "img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'"))
+            );
 
         return http.build();
     }

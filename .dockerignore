@@ -4,3 +4,5 @@ target/
 .idea/
 .vscode/
 *.iml
+AGENTS.md
+PROJECT_CONTEXT.md

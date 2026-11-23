@@ -15,18 +15,26 @@ RUN ./mvnw dependency:go-offline -B
 COPY src src
 
 # Compila el paquete empaquetando el JAR ejecutable (omite tests)
-RUN ./mvnw package -DskipTests
+RUN ./mvnw package
 
 # Ejecución Ligera (Runtime)
 
 FROM eclipse-temurin:25-jre-alpine
 WORKDIR /app
 
+# Zona horaria de México (America/Mexico_City)
+RUN apk add --no-cache tzdata && cp /usr/share/zoneinfo/America/Mexico_City /etc/localtime
+ENV TZ=America/Mexico_City
+
+# Usuario sin privilegios para ejecutar la aplicación
+RUN addgroup -S kronocash && adduser -S -G kronocash kronocash
+
 # Copia el JAR generado desde la etapa de compilación
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build --chown=kronocash:kronocash /app/target/*.jar app.jar
 
 # Puerto de la app Spring Boot
 EXPOSE 2309
 
-# Ejecución de la aplicación
+# Ejecución de la aplicación con usuario no privilegiado
+USER kronocash
 ENTRYPOINT ["java", "-jar", "app.jar"]
