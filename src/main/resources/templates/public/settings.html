@@ -56,7 +56,7 @@
                 </select>
                 <p id="themeStyle-help">El tema se aplica mediante el atributo data-theme de la página.</p>
                 <p id="themeStyle-errors" class="error"
-                   th:if="${#fields.hasErrors('themeStyle')}" th:errors="*{themeStyle}"></p>
+               th:text="${#fields.hasErrors('themeStyle')} ? ${#strings.listJoin(#fields.errors('themeStyle'), '. ')} : ''"></p>
             </div>
 
             <fieldset>
@@ -122,7 +122,7 @@
                 </select>
                 <p id="fontScale-help">Elija un tamaño entre 100% y 200% sin tener que escribir números.</p>
                 <p id="fontScale-errors" class="error"
-                   th:if="${#fields.hasErrors('fontScale')}" th:errors="*{fontScale}"></p>
+               th:text="${#fields.hasErrors('fontScale')} ? ${#strings.listJoin(#fields.errors('fontScale'), '. ')} : ''"></p>
             </div>
 
             <button type="submit">Guardar preferencias</button>

@@ -37,7 +37,7 @@
                    required>
             <p id="username-help">De 3 a 50 caracteres. Puede pegar el valor o usar su gestor de contraseñas.</p>
             <p id="username-errors" class="error"
-               th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+               th:text="${#fields.hasErrors('username')} ? ${#strings.listJoin(#fields.errors('username'), '. ')} : ''"></p>
         </div>
 
         <div>
@@ -51,7 +51,7 @@
                    required>
             <p id="email-help">Se usará para identificar su cuenta. Se permite autocompletar.</p>
             <p id="email-errors" class="error"
-               th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+               th:text="${#fields.hasErrors('email')} ? ${#strings.listJoin(#fields.errors('email'), '. ')} : ''"></p>
         </div>
 
         <div>
@@ -71,7 +71,7 @@
                 <label for="show-password-toggle">Mostrar contraseña</label>
             </div>
             <p id="password-errors" class="error"
-               th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+               th:text="${#fields.hasErrors('password')} ? ${#strings.listJoin(#fields.errors('password'), '. ')} : ''"></p>
         </div>
 
         <button type="submit">Crear cuenta</button>
