@@ -2,8 +2,8 @@
 .env
 .env.*
 *.local
-#AGENTS.md
-#PROJECT_CONTEXT.md
+AGENTS.md
+PROJECT_CONTEXT.md
 
 HELP.md
 target/
