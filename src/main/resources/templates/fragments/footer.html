@@ -32,12 +32,26 @@
             </ul>
         </section>
 
+        <section aria-labelledby="footer-legal-titulo">
+            <h2 id="footer-legal-titulo">Información legal</h2>
+            <ul>
+                <li>
+                    <a class="touch-target" th:href="@{/accesibilidad}"
+                       th:attr="aria-current=${currentPath == '/accesibilidad'} ? 'page' : null">Declaración de accesibilidad</a>
+                </li>
+                <li>
+                    <a class="touch-target" th:href="@{/terminos}"
+                       th:attr="aria-current=${currentPath == '/terminos'} ? 'page' : null">Términos y aviso académico</a>
+                </li>
+            </ul>
+        </section>
+
         <section aria-labelledby="footer-project-titulo">
             <h2 id="footer-project-titulo">Proyecto</h2>
             <ul>
                 <li>Versión 1.0</li>
                 <li>Estándar WCAG 2.2 AAA</li>
-                <li>Equipo GIU26B</li>
+                <li>Equipo KronoCash - Plataforma de Gestión Financiera</li>
             </ul>
             <a class="touch-target" href="#contenido-principal">Volver arriba</a>
         </section>

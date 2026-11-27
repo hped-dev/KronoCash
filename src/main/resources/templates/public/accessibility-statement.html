@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es"
+      th:attr="data-theme=${theme},data-dark-mode=${darkMode},data-reduce-motion=${reduceMotion},data-font-scale=${fontScale}"
+      th:style="'--font-scale: ' + ${fontScale} + '%'">
+<head th:replace="~{fragments/head :: head('Declaración de accesibilidad')}">
+    <title>Declaración de accesibilidad - KronoCash</title>
+</head>
+<body>
+<a th:replace="~{fragments/head :: skipLink}">Saltar al contenido principal</a>
+<p id="a11y-status" class="sr-only" role="status" aria-live="polite"></p>
+<header th:replace="~{fragments/navbar :: navbar}">Navegación principal</header>
+
+<main id="contenido-principal" class="container" tabindex="-1">
+    <h1>Declaración de accesibilidad</h1>
+    <p>
+        KronoCash es una plataforma educativa desarrollada con el objetivo de que cualquier persona
+        pueda gestionar sus finanzas personales de forma comprensible, inclusiva y sin barreras.
+        Esta declaración describe el nivel de accesibilidad que se persigue, las medidas aplicadas,
+        las pruebas realizadas y la forma de reportar una barrera.
+    </p>
+
+    <section class="card" aria-labelledby="conformidad-titulo">
+        <h2 id="conformidad-titulo">Nivel de conformidad</h2>
+        <p>
+            El objetivo de diseño y desarrollo de KronoCash es la conformidad con
+            <strong>WCAG 2.2 en nivel AAA</strong> (contraste mejorado, objetivos táctiles reforzados
+            y criterios cognitivos). La interfaz se ha construido con HTML semántico, CSS nativo y
+            JavaScript progresivo, sin dependencias de marcos de interfaz que interfieran con las
+            tecnologías de asistencia.
+        </p>
+        <p>
+            La accesibilidad se evalúa en las seis combinaciones posibles: tres temas
+            (Minimal, Retro y Cyberpunk) en modo claro y modo oscuro. Si encuentra una barrera,
+            consulte la sección «Contacto y reporte de barreras» al final de esta página.
+        </p>
+    </section>
+
+    <section class="card" aria-labelledby="medidas-titulo">
+        <h2 id="medidas-titulo">Medidas implementadas</h2>
+        <p>
+            Las medidas se aplican de forma global mediante variables CSS y componentes compartidos,
+            de modo que se mantienen al cambiar de tema, de modo claro/oscuro o al escalar el texto.
+        </p>
+
+        <h3 id="contraste-titulo">Contraste y legibilidad</h3>
+        <p>
+            Todos los textos y controles consumen los tokens de color definidos en la base de estilos.
+            La relación de contraste objetivo es de al menos <strong>7:1</strong> para texto normal y
+            de al menos 4.5:1 para texto grande, verificada en los tres temas y ambos modos.
+            El foco de teclado usa un contorno de 3&nbsp;px con desplazamiento de 2&nbsp;px
+            (<code>:focus-visible</code>), visible también en fondos oscuros.
+        </p>
+
+        <h3 id="teclado-titulo">Navegación por teclado y foco visible</h3>
+        <p>
+            El recorrido completo es posible con <kbd>Tab</kbd>, <kbd>Mayús</kbd>+<kbd>Tab</kbd>,
+            <kbd>Enter</kbd>, <kbd>Espacio</kbd> y <kbd>Esc</kbd>. Se incluye un enlace
+            «Saltar al contenido principal», el orden de tabulación sigue el orden de lectura y no
+            existen trampas de foco. Los formularios funcionan sin JavaScript (mejora progresiva).
+        </p>
+
+        <h3 id="tipografia-titulo">Tipografía, dislexia y espaciado</h3>
+        <p>
+            Se emplean unidades relativas (<code>rem</code>, <code>em</code>, <code>clamp()</code>) para
+            permitir zoom del 200&nbsp;% al 400&nbsp;% sin desplazamiento horizontal. El widget
+            «Accesibilidad» permite ajustar la escala de fuente de 100&nbsp;% a 200&nbsp;%, activar
+            la tipografía OpenDyslexic, ampliar el espaciado de lectura y subrayar los enlaces.
+        </p>
+
+        <h3 id="movimiento-titulo">Control de movimiento y animaciones</h3>
+        <p>
+            Se respeta la preferencia del sistema <code>prefers-reduced-motion: reduce</code> y el
+            atributo global <code>data-reduce-motion="true"</code>. Al activar «Reducir movimiento»
+            se detienen las transiciones y las animaciones de la mascota Krono, evitando parpadeos
+            abruptos. El puntero resaltado se desactiva automáticamente con movimiento reducido.
+        </p>
+
+        <h3 id="estado-titulo">Mensajes de estado y asistencia por voz</h3>
+        <p>
+            Los cambios relevantes se anuncian mediante regiones <code>aria-live</code> y mensajes de
+            estado (<code>role="status"</code>, <code>role="alert"</code>): validación de formularios,
+            resultados del filtro de movimientos, guardado de preferencias y mensajes de Krono.
+            La asistencia de voz se ofrece con la Web Speech API del navegador: reconocimiento de
+            voz para comandos en español y síntesis de voz para leer los mensajes, con controles
+            explícitos de activación y silenciado.
+        </p>
+
+        <div class="table-responsive">
+            <table>
+                <caption>Resumen de medidas de accesibilidad y criterios WCAG 2.2 relacionados.</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Medida</th>
+                        <th scope="col">Criterio WCAG 2.2</th>
+                        <th scope="col">Aplicación en KronoCash</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Contraste de 7:1</th>
+                        <td>1.4.6 Contraste (mejorado)</td>
+                        <td>Variables de color validadas en seis combinaciones tema × modo.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Objetivos táctiles de 44 × 44 px</th>
+                        <td>2.5.8 Objetivos táctiles (mejorado)</td>
+                        <td>Clase compartida en botones, enlaces de acción y controles de formulario.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Navegación por teclado sin trampas</th>
+                        <td>2.1.1 / 2.1.2 Teclado</td>
+                        <td>Formularios nativos, enlace de salto y foco visible de 3 px.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Alternativa textual de la gráfica</th>
+                        <td>1.1.1 Contenido no textual</td>
+                        <td>Tabla sincronizada con los mismos datos mes a mes que la gráfica.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Etiquetas y mensajes de error</th>
+                        <td>3.3.2 Etiquetas o instrucciones / 3.3.3 Ayuda ante errores</td>
+                        <td>Etiquetas visibles, ayuda persistente y errores enlazados con ARIA.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Autenticación sin pruebas cognitivas</th>
+                        <td>3.3.8 Autenticación accesible</td>
+                        <td>Sin CAPTCHA, con autocompletado y pegado permitidos.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="card" aria-labelledby="pruebas-titulo">
+        <h2 id="pruebas-titulo">Pruebas realizadas</h2>
+
+        <h3 id="auditorias-titulo">Auditorías automatizadas</h3>
+        <p>
+            Se han realizado auditorias con WAVE y Lighthouse sobre las vistas públicas y privadas.
+            Se revisaron específicamente las referencias ARIA (<code>aria-describedby</code>,
+            <code>aria-labelledby</code>, <code>aria-controls</code> y <code>label[for]</code>),
+            los identificadores duplicados, la jerarquía de encabezados y el orden de foco.
+            La ejecución de <code>./mvnw test</code> confirma que las plantillas Thymeleaf renderizan
+            sin errores.
+        </p>
+
+        <h3 id="usuarios-titulo">Pruebas con usuarios</h3>
+        <p>
+            Se han llevado a cabo pruebas de usabilidad con usuarios del equipo del curso,
+            incluyendo recorridos con teclado, lectores de pantalla, escalado de texto al 200&nbsp;%
+            y resoluciones de 360&nbsp;px, 768&nbsp;px y 1440&nbsp;px. Las observaciones se usaron
+            para ajustar el tamaño de los objetivos táctiles, los mensajes de estado y la
+            redacción de las ayudas.
+        </p>
+    </section>
+
+    <section class="card" aria-labelledby="contacto-titulo">
+        <h2 id="contacto-titulo">Contacto y reporte de barreras</h2>
+        <p>
+            Si encuentra una barrera de accesibilidad, puede ajustar su experiencia de forma
+            inmediata desde el widget «Accesibilidad» y comunicar el incidente al equipo del
+            proyecto a través del correo de soporte del proyecto:
+        </p>
+        <p>
+            <a class="touch-target" href="mailto:soporte-kronocash@hped.dev">soporte-kronocash@hped.dev</a>
+        </p>
+        <p>
+            En el mensaje, indique la vista, el tema y el modo utilizados, el navegador y una
+            breve descripción de la barrera. Su nota ayudará a mejorar la plataforma.
+        </p>
+        <p>
+            <a class="touch-target" th:href="@{/terminos}">Ver los términos y el aviso de proyecto académico</a>
+        </p>
+    </section>
+
+    <p>
+        <a class="touch-target" th:href="@{/}">Volver al inicio</a>
+    </p>
+</main>
+<div th:replace="~{fragments/mascot :: mascot}">Asistente virtual Krono</div>
+<div th:replace="~{fragments/a11y-widget :: a11yWidget}">Opciones de accesibilidad</div>
+<div th:replace="~{fragments/footer :: footer}">Pie de página</div>
+</body>
+</html>

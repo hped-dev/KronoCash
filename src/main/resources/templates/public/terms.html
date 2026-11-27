@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es"
+      th:attr="data-theme=${theme},data-dark-mode=${darkMode},data-reduce-motion=${reduceMotion},data-font-scale=${fontScale}"
+      th:style="'--font-scale: ' + ${fontScale} + '%'">
+<head th:replace="~{fragments/head :: head('Términos y aviso académico')}">
+    <title>Términos y aviso académico - KronoCash</title>
+</head>
+<body>
+<a th:replace="~{fragments/head :: skipLink}">Saltar al contenido principal</a>
+<p id="a11y-status" class="sr-only" role="status" aria-live="polite"></p>
+<header th:replace="~{fragments/navbar :: navbar}">Navegación principal</header>
+
+<main id="contenido-principal" class="container" tabindex="-1">
+    <h1>Términos y aviso de proyecto académico</h1>
+    <p>
+        Este documento explica la naturaleza de KronoCash, las precauciones que debe tomar al
+        utilizarlo durante su evaluación y el alcance educativo de sus funcionalidades.
+    </p>
+
+    <aside class="card" aria-labelledby="aviso-titulo">
+        <h2 id="aviso-titulo">Aviso importante: proyecto escolar</h2>
+        <p>
+            <strong>KronoCash es un proyecto universitario de la materia Gráficos, Interfaces y
+            Usabilidad, desarrollado sin fines comerciales.</strong> No es un producto financiero,
+            no ofrece asesoría financiera real ni regulada, y no está autorizado para gestionar
+            dinero, inversiones ni datos personales sensibles. Todo lo que se muestra en la
+            aplicación tiene finalidad demostrativa y educativa.
+        </p>
+    </aside>
+
+    <section class="card" aria-labelledby="naturaleza-titulo">
+        <h2 id="naturaleza-titulo">Naturaleza del proyecto</h2>
+        <p>
+            La plataforma se ha creado como trabajo académico para aplicar conceptos de interfaces,
+            usabilidad y accesibilidad web, alineados con los Objetivos de Desarrollo Sostenible
+            4 (Educación de Calidad) y 8 (Trabajo Decente y Crecimiento Económico). El equipo
+            responsable es KronoCash - Plataforma de Gestión Financiera.
+        </p>
+        <p>
+            En consecuencia, no se garantiza la continuidad del servicio, la conservación de los
+            datos ni la exactitud de las cifras fuera del contexto de la evaluación académica.
+        </p>
+    </section>
+
+    <section class="card" aria-labelledby="datos-titulo">
+        <h2 id="datos-titulo">No introduzca datos reales</h2>
+        <p>
+            <strong>Por el momento, no debe ingresar correos electrónicos reales, contraseñas
+            reutilizadas ni información financiera o personal sensible.</strong> Utilice exclusivamente
+            correos de prueba o ficticios y datos simulados expresados en pesos mexicanos (MXN).
+        </p>
+
+        <h3 id="correo-titulo">Correos electrónicos</h3>
+        <p>
+            Regístrese con una dirección ficticia, por ejemplo
+            <code>estudiante.prueba@example.com</code>. El dominio <code>example.com</code> está
+            reservado para documentación y ejemplos, por lo que no corresponde a una cuenta real.
+        </p>
+
+        <h3 id="contrasena-titulo">Contraseñas</h3>
+        <p>
+            Use una contraseña de prueba que no haya utilizado en ningún otro servicio. Aunque la
+            aplicación almacena las contraseñas con BCrypt, al tratarse de un entorno académico
+            debe asumir que cualquier dato introducido podría ser visible durante la evaluación.
+        </p>
+
+        <h3 id="financiero-titulo">Información financiera y personal</h3>
+        <p>
+            No introduzca saldos, cuentas bancarias, tarjetas, ingresos reales, identificaciones
+            oficiales ni otros datos personales sensibles. Emplee importes inventados en MXN para
+            probar el registro de ingresos, egresos, metas de ahorro y hábitos.
+        </p>
+
+        <div class="table-responsive">
+            <table>
+                <caption>Datos recomendados y datos que no debe introducir durante la evaluación.</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Tipo de dato</th>
+                        <th scope="col">Use datos de prueba</th>
+                        <th scope="col">No introduzca</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Correo electrónico</th>
+                        <td>estudiante.prueba@example.com</td>
+                        <td>Su correo personal, laboral o institucional real.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Contraseña</th>
+                        <td>Una clave de prueba nueva y exclusiva para esta demo.</td>
+                        <td>Contraseñas reutilizadas de otros servicios.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Montos</th>
+                        <td>Importes simulados en MXN (por ejemplo, 1,500.00).</td>
+                        <td>Saldos, sueldos o deudas reales.</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Identificación</th>
+                        <td>Ningún dato de identificación; solo un nombre de usuario ficticio.</td>
+                        <td>Nombre completo real, teléfono, dirección o documentos oficiales.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="card" aria-labelledby="tratamiento-titulo">
+        <h2 id="tratamiento-titulo">Tratamiento de datos de prueba en la aplicación</h2>
+        <p>
+            Los datos que introduzca se utilizan únicamente para mostrar el funcionamiento de la
+            aplicación durante la evaluación. Las preferencias de accesibilidad se guardan en el
+            dispositivo mediante almacenamiento local y, si inicia sesión, en la cuenta de prueba
+            para que el tema y las opciones se recuerden entre visitas.
+        </p>
+        <ul>
+            <li>Los movimientos, metas, hábitos y escenarios se asocian al usuario de prueba.</li>
+            <li>Las contraseñas se almacenan como hashes BCrypt, nunca en texto plano.</li>
+            <li>La base de datos es temporal y puede reiniciarse durante la evaluación.</li>
+            <li>No se envían los datos a servicios externos ni se emplean para fines comerciales.</li>
+        </ul>
+        <p>
+            No obstante, la recomendación es tratar toda la información introducida como pública
+            dentro del contexto académico y eliminar la cuenta de prueba al finalizar.
+        </p>
+    </section>
+
+    <section class="card" aria-labelledby="simulador-titulo">
+        <h2 id="simulador-titulo">El simulador: fines educativos</h2>
+        <p>
+            Las proyecciones del simulador son cálculos ilustrativos basados en los parámetros que
+            usted introduce: ingreso mensual, porcentaje de ahorro, recorte de gastos y horizonte
+            temporal. Se muestran junto a una tabla con los mismos datos mes a mes para facilitar
+            su comprensión.
+        </p>
+        <p>
+            <strong>El simulador no constituye una recomendación de inversión ni una predicción
+            financiera.</strong> No contempla impuestos, inflación, comisiones, riesgos de mercado
+            ni circunstancias personales. No debe utilizarse para tomar decisiones económicas reales.
+        </p>
+    </section>
+
+    <section class="card" aria-labelledby="responsable-titulo">
+        <h2 id="responsable-titulo">Uso responsable de la plataforma</h2>
+        <ul>
+            <li>Emplee la aplicación solo con fines de aprendizaje y evaluación académica.</li>
+            <li>No intente acceder a cuentas de otras personas ni alterar el comportamiento de la aplicación.</li>
+            <li>No introduzca datos reales ni información sensible, tal como se indicó anteriormente.</li>
+            <li>Reporte cualquier barrera de accesibilidad o fallo detectado al equipo del proyecto.</li>
+            <li>Respeten el trabajo de sus compañeros y las normas de la asignatura.</li>
+        </ul>
+        <p>
+            <a class="touch-target" th:href="@{/accesibilidad}">Consultar la declaración de accesibilidad</a>
+        </p>
+    </section>
+
+    <section class="card" aria-labelledby="contacto-legal-titulo">
+        <h2 id="contacto-legal-titulo">Contacto</h2>
+        <p>
+            Para dudas sobre estos términos o sobre el uso académico de KronoCash, escriba al
+            equipo de KronoCash a
+            <a class="touch-target" href="mailto:soporte-kronocash@hped.dev">soporte-kronocash@hped.dev</a>.
+        </p>
+    </section>
+
+    <p>
+        <a class="touch-target" th:href="@{/}">Volver al inicio</a>
+    </p>
+</main>
+<div th:replace="~{fragments/mascot :: mascot}">Asistente virtual Krono</div>
+<div th:replace="~{fragments/a11y-widget :: a11yWidget}">Opciones de accesibilidad</div>
+<div th:replace="~{fragments/footer :: footer}">Pie de página</div>
+</body>
+</html>

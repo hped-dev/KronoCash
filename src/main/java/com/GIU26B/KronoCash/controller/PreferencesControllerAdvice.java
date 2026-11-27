@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
  * solo necesita reaccionar a los cambios del usuario.
  */
 @ControllerAdvice(assignableTypes = {HomeController.class, AuthController.class,
-        SettingsController.class, DashboardController.class, SimulatorController.class})
+        SettingsController.class, DashboardController.class, SimulatorController.class,
+        LegalController.class})
 @RequiredArgsConstructor
 public class PreferencesControllerAdvice {
 

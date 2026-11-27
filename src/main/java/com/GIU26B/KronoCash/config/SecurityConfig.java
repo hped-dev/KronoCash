@@ -20,7 +20,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Permitir acceso libre a recursos estáticos (CSS, JS, imágenes) y páginas públicas
                 .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/register", "/login", "/error",
-                        "/api/preferences").permitAll()
+                        "/accesibilidad", "/terminos", "/api/preferences").permitAll()
                 // Cualquier otra vista (dashboard, simulador, ajustes) requiere autenticación
                 .anyRequest().authenticated()
             )
